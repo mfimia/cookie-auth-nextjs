@@ -1,8 +1,17 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import type { AppProps } from "next/app";
+import TopNav from "../components/TopNav";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "antd/dist/antd.css";
+import "../public/css/styles.css";
+import { Fragment } from "react";
 
-function MyApp({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
-}
+const MyApp = ({ Component, pageProps }: AppProps) => {
+  return (
+    <Fragment>
+      <TopNav />
+      <Component {...pageProps} />
+    </Fragment>
+  );
+};
 
-export default MyApp
+export default MyApp;
