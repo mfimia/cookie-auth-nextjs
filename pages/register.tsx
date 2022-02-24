@@ -1,14 +1,39 @@
+import { SyncOutlined } from "@ant-design/icons";
+import axios, { AxiosError } from "axios";
 import { NextPage } from "next";
+import Error, { ErrorProps } from "next/error";
+import Link from "next/link";
 import { FormEvent, Fragment, useState } from "react";
+import { toast, ToastContent } from "react-toastify";
 
 const Register: NextPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    console.table({ name, email, password });
+    try {
+      setLoading(true);
+      //   http://localhost:8000 -> included in proxy (custom server)
+      const { data } = await axios.post(`/api/auth/register`, {
+        name,
+        email,
+        password,
+      });
+
+      toast.success("Registration successful. Please login");
+      setLoading(false);
+    } catch (err) {
+      if (axios.isAxiosError(err)) {
+        const error = err as AxiosError;
+        toast.error(error.response?.data.payload as ToastContent);
+        setLoading(false);
+      } else {
+        throw new Error("Server Error" as "Server Error" & ErrorProps);
+      }
+    }
   };
 
   return (
@@ -41,10 +66,20 @@ const Register: NextPage = () => {
             required
           />
           <br />
-          <button type="submit" className="btn btn-block btn-primary p-2">
-            Submit
+          <button
+            type="submit"
+            disabled={!name || !email || !password || loading}
+            className="btn btn-block btn-primary p-2"
+          >
+            {loading ? <SyncOutlined spin /> : "Sign up"}
           </button>
         </form>
+        <p className="text-center p-3">
+          Already registered?
+          <Link href={"/login"}>
+            <a> Sign in</a>
+          </Link>
+        </p>
       </div>
     </Fragment>
   );
