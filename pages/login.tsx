@@ -1,28 +1,43 @@
-import { NextPage } from "next";
-import { FormEvent, Fragment, useState } from "react";
-import axios, { AxiosError } from "axios";
-import { toast, ToastContent } from "react-toastify";
-import Error, { ErrorProps } from "next/error";
 import { SyncOutlined } from "@ant-design/icons";
+import axios, { AxiosError } from "axios";
+import { NextPage } from "next";
+import Error, { ErrorProps } from "next/error";
 import Link from "next/link";
+import { useRouter } from "next/router";
+import { FormEvent, Fragment, useContext, useState } from "react";
+import { toast, ToastContent } from "react-toastify";
+import { Context } from "../context/index";
+import { UserData } from "../context/types";
 
 const Login: NextPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const { state, dispatch } = useContext(Context);
+
+  const router = useRouter();
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-    // console.table({ name, email, password });
+
     try {
       setLoading(true);
       //   http://localhost:8000 -> included in proxy (custom server)
-      const { data } = await axios.post(`/api/auth/login`, {
+      const { data }: { data: UserData } = await axios.post(`/api/auth/login`, {
         email,
         password,
       });
 
-      console.log("LOGIN RESPONSE:", data);
+      dispatch({
+        type: "LOGIN",
+        payload: data,
+      });
+
+      window.localStorage.setItem("user", JSON.stringify(data));
+
+      router.push("/");
+
       setLoading(false);
     } catch (err) {
       if (axios.isAxiosError(err)) {
