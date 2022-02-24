@@ -1,13 +1,16 @@
-import type { AppProps } from "next/app";
-import TopNav from "../components/TopNav";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "antd/dist/antd.css";
-import "../public/css/styles.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import type { AppProps } from "next/app";
 import { Fragment } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import TopNav from "../components/TopNav";
+import "../public/css/styles.css";
 
 const MyApp = ({ Component, pageProps }: AppProps) => {
   return (
     <Fragment>
+      <ToastContainer position="top-center" />
       <TopNav />
       <Component {...pageProps} />
     </Fragment>
