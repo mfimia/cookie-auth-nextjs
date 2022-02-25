@@ -3,14 +3,26 @@ import axios, { AxiosError } from "axios";
 import { NextPage } from "next";
 import Error, { ErrorProps } from "next/error";
 import Link from "next/link";
-import { FormEvent, Fragment, useState } from "react";
+import { useRouter } from "next/router";
+import { FormEvent, Fragment, useContext, useEffect, useState } from "react";
 import { toast, ToastContent } from "react-toastify";
+import { Context } from "../context/index";
 
 const Register: NextPage = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+
+  const {
+    state: { user },
+  } = useContext(Context);
+
+  const router = useRouter();
+
+  useEffect(() => {
+    if (user !== null) router.push("/");
+  }, [user]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
