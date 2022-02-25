@@ -47,13 +47,11 @@ const Provider = ({ children }: { children: ReactNode }) => {
           axios
             .get("/api/auth/logout")
             .then(() => {
-              console.log("/401 error > logout");
               dispatch({ type: "LOGOUT" } as UserActions);
               window.localStorage.removeItem("user");
               router.push("/login");
             })
             .catch((err) => {
-              console.log("AXIOS INTERCEPTORS ERR", err);
               reject(error);
             });
         });
@@ -61,6 +59,14 @@ const Provider = ({ children }: { children: ReactNode }) => {
       return Promise.reject(error);
     }
   );
+
+  useEffect(() => {
+    const getCsrfToken = async () => {
+      const { data } = await axios.get("/api/csrf-token");
+      axios.defaults.headers["X-CSRF-Token"] = data.csrfToken;
+    };
+    getCsrfToken();
+  }, []);
 
   return (
     <Context.Provider
