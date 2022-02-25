@@ -20,7 +20,7 @@ import { toast } from "react-toastify";
 import { Context } from "../context/index";
 import { UserActions, UserState } from "../context/types";
 
-const { Item, SubMenu } = Menu;
+const { Item, SubMenu, ItemGroup } = Menu;
 
 const TopNav = () => {
   const [currentLink, setCurrentLink] = useState("");
@@ -89,9 +89,16 @@ const TopNav = () => {
           title={user.name}
           className="float-right"
         >
-          <Item key="logout" onClick={logoutUser} icon={<LogoutOutlined />}>
-            Logout
-          </Item>
+          <ItemGroup>
+            <Item key={"/user"}>
+              <Link href={"/user"}>
+                <a>Dashboard</a>
+              </Link>
+            </Item>
+            <Item key="logout" onClick={logoutUser} icon={<LogoutOutlined />}>
+              Logout
+            </Item>
+          </ItemGroup>
         </SubMenu>
       )}
     </Menu>
