@@ -4,7 +4,7 @@ import { NextPage } from "next";
 import Error, { ErrorProps } from "next/error";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { FormEvent, Fragment, useContext, useState } from "react";
+import { FormEvent, Fragment, useContext, useEffect, useState } from "react";
 import { toast, ToastContent } from "react-toastify";
 import { Context } from "../context/index";
 import { UserData } from "../context/types";
@@ -15,8 +15,13 @@ const Login: NextPage = () => {
   const [loading, setLoading] = useState(false);
 
   const { state, dispatch } = useContext(Context);
+  const { user } = state;
 
   const router = useRouter();
+
+  useEffect(() => {
+    if (user !== null) router.push("/");
+  }, [user]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -81,9 +86,9 @@ const Login: NextPage = () => {
           </button>
         </form>
         <p className="text-center p-3">
-          Don't have an account?
+          Don't have an account?{" "}
           <Link href={"/register"}>
-            <a> Create account</a>
+            <a>Create account</a>
           </Link>
         </p>
       </div>
