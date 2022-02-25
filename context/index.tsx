@@ -1,5 +1,13 @@
-import { createContext, ReactNode, useEffect, useReducer } from "react";
-import { UserState, UserActions } from "./types";
+import axios from "axios";
+import { useRouter } from "next/router";
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  useEffect,
+  useReducer,
+} from "react";
+import { UserActions, UserState } from "./types";
 
 const initialState = {
   user: null,
@@ -21,6 +29,8 @@ const rootReducer = (state: UserState, action: UserActions) => {
 const Provider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(rootReducer, initialState);
 
+  const router = useRouter();
+
   useEffect(() => {
     dispatch({
       type: "LOGIN" as UserActions["type"],
@@ -28,8 +38,39 @@ const Provider = ({ children }: { children: ReactNode }) => {
     });
   }, []);
 
+  axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+      const res = error.response;
+      if (res.status === 401 && res.config && !res.config.__isRetryRequest) {
+        return new Promise((_, reject) => {
+          axios
+            .get("/api/auth/logout")
+            .then(() => {
+              console.log("/401 error > logout");
+              dispatch({ type: "LOGOUT" } as UserActions);
+              window.localStorage.removeItem("user");
+              router.push("/login");
+            })
+            .catch((err) => {
+              console.log("AXIOS INTERCEPTORS ERR", err);
+              reject(error);
+            });
+        });
+      }
+      return Promise.reject(error);
+    }
+  );
+
   return (
-    <Context.Provider value={{ state, dispatch } as any}>
+    <Context.Provider
+      value={
+        { state, dispatch } as {
+          state: UserState;
+          dispatch: Dispatch<UserActions>;
+        }
+      }
+    >
       {children}
     </Context.Provider>
   );
