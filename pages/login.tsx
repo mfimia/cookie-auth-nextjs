@@ -14,7 +14,7 @@ const Login: NextPage = () => {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const { state, dispatch } = useContext(Context);
+  const { state, dispatch }: any = useContext(Context);
   const { user } = state;
 
   const router = useRouter();

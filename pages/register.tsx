@@ -16,7 +16,7 @@ const Register: NextPage = () => {
 
   const {
     state: { user },
-  } = useContext(Context);
+  }: any = useContext(Context);
 
   const router = useRouter();
 
