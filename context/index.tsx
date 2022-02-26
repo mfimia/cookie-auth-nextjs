@@ -62,7 +62,9 @@ const Provider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const getCsrfToken = async () => {
-      const { data } = await axios.get(`${URL}/api/csrf-token`);
+      const { data } = await axios.get(`${URL}/api/csrf-token`, {
+        withCredentials: true,
+      });
       axios.defaults.headers = {
         "X-CSRF-Token": data.csrfToken,
       } as CSRFHeader;
