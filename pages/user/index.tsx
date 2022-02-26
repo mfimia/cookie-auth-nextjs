@@ -5,7 +5,7 @@ import { Context } from "../../context";
 const UserIndex = () => {
   const {
     state: { user },
-  } = useContext(Context);
+  } = useContext(Context) as any;
 
   return (
     <UserRoute>
