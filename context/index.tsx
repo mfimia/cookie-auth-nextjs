@@ -1,17 +1,15 @@
-import axios from "axios";
+import axios, { HeadersDefaults } from "axios";
 import { useRouter } from "next/router";
-import {
-  createContext,
-  Dispatch,
-  ReactNode,
-  useEffect,
-  useReducer,
-} from "react";
+import { createContext, ReactNode, useEffect, useReducer } from "react";
 import { UserActions, UserState } from "./types";
 
-const initialState = {
+const initialState: UserState = {
   user: null,
-} as any;
+};
+
+interface CSRFHeader extends HeadersDefaults {
+  "X-CSRF-Token": string;
+}
 
 const Context = createContext(initialState);
 
@@ -38,6 +36,7 @@ const Provider = ({ children }: { children: ReactNode }) => {
     });
   }, []);
 
+  //   if there is 401 response from server. execute below code
   axios.interceptors.response.use(
     (response) => response,
     (error) => {
@@ -51,7 +50,7 @@ const Provider = ({ children }: { children: ReactNode }) => {
               window.localStorage.removeItem("user");
               router.push("/login");
             })
-            .catch((err) => {
+            .catch(() => {
               reject(error);
             });
         });
@@ -63,20 +62,15 @@ const Provider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const getCsrfToken = async () => {
       const { data } = await axios.get("/api/csrf-token");
-      axios.defaults.headers["X-CSRF-Token"] = data.csrfToken;
+      axios.defaults.headers = {
+        "X-CSRF-Token": data.csrfToken,
+      } as CSRFHeader;
     };
     getCsrfToken();
   }, []);
 
   return (
-    <Context.Provider
-      value={
-        { state, dispatch } as {
-          state: UserState;
-          dispatch: Dispatch<UserActions>;
-        }
-      }
-    >
+    <Context.Provider value={{ state, dispatch } as any}>
       {children}
     </Context.Provider>
   );
