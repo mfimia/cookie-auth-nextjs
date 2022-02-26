@@ -45,7 +45,9 @@ const Provider = ({ children }: { children: ReactNode }) => {
       if (res.status === 401 && res.config && !res.config.__isRetryRequest) {
         return new Promise((_, reject) => {
           axios
-            .get(`${URL}/api/auth/logout`)
+            .get(`${URL}/api/auth/logout`, {
+              withCredentials: true,
+            })
             .then(() => {
               dispatch({ type: "LOGOUT" } as UserActions);
               window.localStorage.removeItem("user");
@@ -62,7 +64,9 @@ const Provider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const getCsrfToken = async () => {
-      const { data } = await axios.get(`${URL}/api/csrf-token`);
+      const { data } = await axios.get(`${URL}/api/csrf-token`, {
+        withCredentials: true,
+      });
       axios.defaults.headers = {
         "X-CSRF-Token": data.csrfToken,
       } as CSRFHeader;

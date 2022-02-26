@@ -11,7 +11,9 @@ const UserRoute = ({ children }: { children: ReactNode }) => {
 
   const fetchUser = async () => {
     try {
-      const { data } = await axios.get(`${URL}/api/auth/current-user`);
+      const { data } = await axios.get(`${URL}/api/auth/current-user`, {
+        withCredentials: true,
+      });
       if (data.ok) setOk(true);
     } catch (err) {
       router.push("/login");

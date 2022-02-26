@@ -35,6 +35,9 @@ const Login: NextPage = () => {
         {
           email,
           password,
+        },
+        {
+          withCredentials: true,
         }
       );
 
@@ -42,6 +45,8 @@ const Login: NextPage = () => {
         type: "LOGIN",
         payload: data,
       });
+
+      console.log(axios.defaults.headers);
 
       window.localStorage.setItem("user", JSON.stringify(data));
 
