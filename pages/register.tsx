@@ -87,9 +87,9 @@ const Register: NextPage = () => {
           </button>
         </form>
         <p className="text-center p-3">
-          Already registered?
+          Already registered?{" "}
           <Link href={"/login"}>
-            <a> Sign in</a>
+            <a>Sign in</a>
           </Link>
         </p>
       </div>
