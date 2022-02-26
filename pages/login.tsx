@@ -38,6 +38,9 @@ const Login: NextPage = () => {
         },
         {
           withCredentials: true,
+          headers: {
+            Host: "https://cookie-auth-nextjs-client.vercel.app",
+          },
         }
       );
 
@@ -45,8 +48,6 @@ const Login: NextPage = () => {
         type: "LOGIN",
         payload: data,
       });
-
-      console.log(axios.defaults.headers);
 
       window.localStorage.setItem("user", JSON.stringify(data));
 
