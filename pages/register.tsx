@@ -30,15 +30,11 @@ const Register: NextPage = () => {
     try {
       setLoading(true);
       //   http://localhost:8000 -> included in proxy (custom server)
-      const { data } = await axios.post(
-        `${URL}/api/auth/register`,
-        {
-          name,
-          email,
-          password,
-        },
-        { withCredentials: true }
-      );
+      const { data } = await axios.post(`${URL}/api/auth/register`, {
+        name,
+        email,
+        password,
+      });
 
       toast.success("Registration successful. Please login");
       setLoading(false);

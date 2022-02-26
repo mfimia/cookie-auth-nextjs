@@ -35,8 +35,7 @@ const Login: NextPage = () => {
         {
           email,
           password,
-        },
-        { withCredentials: true }
+        }
       );
 
       dispatch({
