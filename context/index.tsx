@@ -2,6 +2,7 @@ import axios, { HeadersDefaults } from "axios";
 import { useRouter } from "next/router";
 import { createContext, ReactNode, useEffect, useReducer } from "react";
 import { UserActions, UserState } from "./types";
+import { URL } from "../utils/url";
 
 const initialState: UserState = {
   user: null,
@@ -44,7 +45,7 @@ const Provider = ({ children }: { children: ReactNode }) => {
       if (res.status === 401 && res.config && !res.config.__isRetryRequest) {
         return new Promise((_, reject) => {
           axios
-            .get("/api/auth/logout")
+            .get(`${URL}/api/auth/logout`)
             .then(() => {
               dispatch({ type: "LOGOUT" } as UserActions);
               window.localStorage.removeItem("user");
@@ -61,7 +62,7 @@ const Provider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const getCsrfToken = async () => {
-      const { data } = await axios.get("/api/csrf-token");
+      const { data } = await axios.get(`${URL}/api/csrf-token`);
       axios.defaults.headers = {
         "X-CSRF-Token": data.csrfToken,
       } as CSRFHeader;

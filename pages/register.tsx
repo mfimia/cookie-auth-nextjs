@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { FormEvent, Fragment, useContext, useEffect, useState } from "react";
 import { toast, ToastContent } from "react-toastify";
 import { Context } from "../context/index";
+import { URL } from "../utils/url";
 
 const Register: NextPage = () => {
   const [name, setName] = useState("");
@@ -29,7 +30,7 @@ const Register: NextPage = () => {
     try {
       setLoading(true);
       //   http://localhost:8000 -> included in proxy (custom server)
-      const { data } = await axios.post(`/api/auth/register`, {
+      const { data } = await axios.post(`${URL}/api/auth/register`, {
         name,
         email,
         password,

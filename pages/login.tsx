@@ -8,6 +8,7 @@ import { FormEvent, Fragment, useContext, useEffect, useState } from "react";
 import { toast, ToastContent } from "react-toastify";
 import { Context } from "../context/index";
 import { UserData } from "../context/types";
+import { URL } from "../utils/url";
 
 const Login: NextPage = () => {
   const [email, setEmail] = useState("");
@@ -29,10 +30,13 @@ const Login: NextPage = () => {
     try {
       setLoading(true);
       //   http://localhost:8000 -> included in proxy (custom server)
-      const { data }: { data: UserData } = await axios.post(`/api/auth/login`, {
-        email,
-        password,
-      });
+      const { data }: { data: UserData } = await axios.post(
+        `${URL}/api/auth/login`,
+        {
+          email,
+          password,
+        }
+      );
 
       dispatch({
         type: "LOGIN",
