@@ -9,27 +9,16 @@ import { Menu } from "antd";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, {
-  Dispatch,
-  Fragment,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { Fragment, useContext, useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Context } from "../context/index";
-import { UserActions, UserState } from "../context/types";
 
 const { Item, SubMenu, ItemGroup } = Menu;
 
 const TopNav = () => {
   const [currentLink, setCurrentLink] = useState("");
 
-  const {
-    state,
-    dispatch,
-  }: { state: UserState; dispatch: Dispatch<UserActions> } =
-    useContext(Context);
+  const { state, dispatch }: any = useContext(Context);
   const { user } = state;
 
   const router = useRouter();
