@@ -38,9 +38,6 @@ const Login: NextPage = () => {
         },
         {
           withCredentials: true,
-          headers: {
-            Host: "cookie-auth-nextjs-client.vercel.app",
-          },
         }
       );
 
