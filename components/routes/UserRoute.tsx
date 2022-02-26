@@ -13,7 +13,6 @@ const UserRoute = ({ children }: { children: ReactNode }) => {
       const { data } = await axios.get("/api/auth/current-user");
       if (data.ok) setOk(true);
     } catch (err) {
-      setOk(false);
       router.push("/login");
     }
   };
