@@ -86,7 +86,7 @@ const Login: NextPage = () => {
           </button>
         </form>
         <p className="text-center p-3">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <Link href={"/register"}>
             <a>Create account</a>
           </Link>
