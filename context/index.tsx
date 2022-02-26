@@ -54,6 +54,7 @@ const Provider = ({ children }: { children: ReactNode }) => {
               router.push("/login");
             })
             .catch(() => {
+              router.push("/login");
               reject(error);
             });
         });
