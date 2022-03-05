@@ -22,6 +22,7 @@ const UserRoute = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     fetchUser();
+    // eslint-disable-next-line
   }, []);
 
   return (

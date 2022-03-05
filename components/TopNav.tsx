@@ -27,6 +27,7 @@ const TopNav = () => {
   //   set link to current location when refresh or location changes
   useEffect(() => {
     typeof window !== "undefined" && setCurrentLink(window.location.pathname);
+    // eslint-disable-next-line
   }, [typeof window !== "undefined" && window.location.pathname]);
 
   const logoutUser = async () => {

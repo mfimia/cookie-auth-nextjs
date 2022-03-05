@@ -22,6 +22,7 @@ const Login: NextPage = () => {
 
   useEffect(() => {
     if (user !== null) router.push("/");
+    // eslint-disable-next-line
   }, [user]);
 
   const handleSubmit = async (e: FormEvent) => {
